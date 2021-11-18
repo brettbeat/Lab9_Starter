@@ -69,25 +69,73 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="logBut">Console Log</button>
+      <button id="errBut">Console Error</button>
+      <button id="countBut">Console Count</button>
+      <button id="warnBut">Console Warn</button>
+      <button id="assertBut">Console Assert</button>
+      <button id="clearBut">Console Clear</button>
+      <button id="dirBut">Console Dir</button>
+      <button id="dirXML">Console dirxml</button>
+      <button id="groupStart">Console Group Start</button>
+      <button id="groupEnd">Console Group End</button>
+      <button id="tableBut">Console Table</button>
+      <button id="startTimer">Start Timer</button>
+      <button id="endTimer">End Timer</button>
+      <button id="trace">Console Trace</button>
+      <button id="triggerGlobalError">Trigger a Global Error</button>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+
   <script>
+    let arrayExample = [1, 2, 3];
+
+    try {
+      tryexample;
+    }
+    catch(e) {
+      console.log(e);
+    } finally {
+      console.log("In the finally block"); 
+    }
+
+    class ArrayOutOfBoundsError extends Error {
+      constructor(message) {
+        super(message); 
+        this.name = 'ArrayOutOfBoundsError'; 
+      }
+    }
+
+    window.TrackJS && TrackJS.install({ 
+      token: "7b6d9d31c3ae44f6a85ac2a7d81d6960"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    throw new ArrayOutOfBoundsError('lol'); 
+    throw new ArrayOutOfBoundsError('seconderror'); 
+
+    function readArray(array, index) {
+      if (index < 0 || index >= array.length) {
+        throw new ArrayOutOfBoundsError('Index out bounds'); 
+      }
+    }
+
+    try {
+      readArray(arrayExample, 3); 
+    } catch(e) {
+      console.log(e.message); 
+    }
+
+    try {
+      readArray(arrayExample, -1); 
+    } catch(e) {
+      console.log(e.message); 
+    }
+  </script>
+
+  <script>
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -102,6 +150,66 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    let logBut = document.getElementById("logBut").addEventListener("click", () => {
+      console.log("Console Log Demo");
+    });
+    let errBut = document.getElementById("errBut").addEventListener("click", () => {
+      console.error("Console Error Demo");
+    });
+    let tableBut = document.getElementById("tableBut").addEventListener("click", () => {
+      console.table(arrayExample);
+    });
+    let dirBut = document.getElementById("dirBut").addEventListener("click", () => {
+      console.dir(errorBtns);
+    });
+    let countBut = document.getElementById("countBut").addEventListener("click", () => {
+      console.count();
+    });
+    let warnBut = document.getElementById("warnBut").addEventListener("click", () => {
+      console.warn("Console Warn Demo");
+    });
+    let assertBut = document.getElementById("assertBut").addEventListener("click", () => {
+      console.assert(1 == 2, '1 == 2');
+    });
+    let clearBut = document.getElementById("clearBut").addEventListener("click", () => {
+      console.clear();
+    })
+
+    let dirxmlBut = document.getElementById("dirXML"); 
+    dirxmlBut.addEventListener("click", function() {
+      console.dirxml(errorBtns);
+    }); 
+
+    let groupStartBut = document.getElementById("groupStart"); 
+    groupStartBut.addEventListener("click", function() {
+      console.group();
+    }); 
+
+    let groupEndBut = document.getElementById("groupEnd"); 
+    groupEndBut.addEventListener("click", function() {
+      console.groupEnd();
+    }); 
+
+    let startTimeBut = document.getElementById("startTimer"); 
+    startTimeBut.addEventListener("click", function() {
+      console.time("My Timer"); 
+    }); 
+
+    let endTimeBut = document.getElementById("endTimer"); 
+    endTimeBut.addEventListener("click", function() {
+      console.timeEnd("My Timer"); 
+    }); 
+
+    let traceBut = document.getElementById("trace"); 
+    traceBut.addEventListener("click", function() {
+      console.trace(); 
+    }); 
+
+    let triggerGlobalErrorBut = document.getElementById("triggerGlobalError"); 
+    triggerGlobalErrorBut.addEventListener("click", function() {
+      throw new Error("FAILED"); 
+    }); 
+
   </script>
 </body>
 
